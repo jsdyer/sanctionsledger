@@ -1,7 +1,3 @@
-// Keep transformations separate from the DOM so they can be tested directly.
-export function cleanLines(text) {
-  if (typeof text !== 'string') throw new TypeError('Expected text');
-  const lines = text.split(/\r\n|\r|\n/).map(line => line.trim()).filter(Boolean);
-  const unique = [...new Set(lines)];
-  return { text: unique.join('\n'), count: unique.length, removed: lines.length - unique.length };
-}
+import {counts} from './shared.mjs';
+export const present=rows=>rows;
+export function analyse(rows,state,data){return{metrics:[{label:'Source-listed entries',value:rows.length,note:'Not a legal-status determination'},{label:'Regimes',value:new Set(rows.map(r=>r.regime)).size,note:'Regulation groupings'},{label:'Individuals',value:rows.filter(r=>r.kind==='individual').length,note:'Source identity fields'},{label:'Source updated',value:data.source_updated||'Unknown',note:'Separate from our capture date'}],panels:[{title:'Entries by regime',items:counts(rows,'regime')},{title:'Source-reported listing years',items:counts(rows,'listed_year'),note:'Historical listing date, not when this tool first observed the entry.'}]};}

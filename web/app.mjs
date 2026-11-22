@@ -1,37 +1,42 @@
-import { cleanLines } from './model.mjs';
-const input = document.querySelector('#input');
-const output = document.querySelector('#output');
-const status = document.querySelector('#status');
-const copy = document.querySelector('#copy');
-function update() {
-  const result = cleanLines(input.value);
-  output.value = result.text;
-  status.textContent = `${result.count} unique ${result.count === 1 ? 'line' : 'lines'}; ${result.removed} ${result.removed === 1 ? 'duplicate' : 'duplicates'} removed.`;
-  copy.disabled = result.count === 0;
+import config from './config.mjs';
+import {filterRows,counts,csv,textValue,format} from './shared.mjs';
+import {analyse,present} from './model.mjs';
+const $=id=>document.getElementById(id),el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
+const link=(label,url)=>{const a=el('a',label);if(/^https:\/\//.test(url)||/^\.\//.test(url))a.href=url;return a;};
+let current,data,history=[],visible=[],page=0,loadVersion=0;const size=40;const state={q:'',facets:{},min:'',max:'',days:'30'};
+document.documentElement.style.setProperty('--accent',config.accent);document.documentElement.style.setProperty('--tint',config.tint);
+for(const k of ['eyebrow','intro','explorer-title','method-title','cadence'])if(config[k])$(k).textContent=config[k];
+for(const p of config.method)$('explanation').append(el('p',p));
+for(const r of config.related)$('related').append(link(r.label,r.url));
+function setOptions(select,values,first){select.replaceChildren();if(first)select.append(new Option(first,''));for(const v of values)select.append(new Option(textValue(v),textValue(v)));}
+function makeControls(){
+ $('facets').replaceChildren();for(const f of config.facets){const label=el('label',f.label),select=el('select');select.id='filter-'+f.key;setOptions(select,[...new Set(data.records.flatMap(r=>Array.isArray(r[f.key])?r[f.key]:[r[f.key]??'']))].filter(v=>v!=='').sort((a,b)=>String(a).localeCompare(String(b))),'All '+f.label.toLowerCase());select.value=state.facets[f.key]||'';select.addEventListener('change',()=>{state.facets[f.key]=select.value;page=0;render();});label.append(select);$('facets').append(label);}
 }
-input.addEventListener('input', update);
-document.querySelector('#sample').addEventListener('click', () => {
-  input.value = '  Halifax\nLangley\nHalifax\n\nVancouver  ';
-  update();
-});
-document.querySelector('#clear').addEventListener('click', () => {
-  input.value = '';
-  update();
-  input.focus();
-});
-if (navigator.clipboard && window.isSecureContext) {
-  copy.hidden = false;
-  copy.disabled = true;
-  copy.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(output.value);
-      status.textContent = 'Result copied.';
-    } catch {
-      output.focus();
-      output.select();
-      status.textContent = 'Copy was unavailable. The result is selected so you can copy it manually.';
-    }
-  });
+for(const x of config.controls||[]){const label=el('label',x.label),input=el(x.options?'select':'input');input.id='control-'+x.key;if(x.options){for(const o of x.options)input.append(new Option(o.label,o.value));}else{input.type=x.type||'number';input.min='0';input.placeholder=x.placeholder||'No limit';}input.value=x.default??'';state[x.key]=input.value;input.addEventListener('input',async()=>{state[x.key]=input.value;page=0;if(x.key==='province'||x.key==='version'){state.facets={...(config.defaults||{})};await reloadSelection();}else render();});label.append(input);$('extra-controls').append(label);}
+function panel(spec){const section=el('section',undefined,'panel');section.append(el('h3',spec.title));if(spec.note)section.append(el('p',spec.note));const items=spec.items||[];
+ if(spec.type==='heatmap'){const wrap=el('div',undefined,'heat-scroll'),grid=el('div',undefined,'heatmap');grid.append(el('span',''));for(let h=0;h<24;h++)grid.append(el('span',String(h),'axis'));for(let d=0;d<7;d++){grid.append(el('span',['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][d],'axis'));for(let h=0;h<24;h++){const item=items.find(x=>x.weekday===d&&x.hour===h);const cell=el('div',item?.value==null?'·':Math.round(item.value),'heatcell');cell.style.background=item?.value==null?'#e9eef0':`hsl(188 50% ${Math.max(30,95-Math.min(item.value,90)*.65)}%)`;cell.style.color=item?.value>50?'white':'#142b35';cell.title=item?.detail||'No usable reports';grid.append(cell);}}wrap.append(grid);section.append(wrap);
+ }else if(spec.type==='line'){
+ const points=items.filter(x=>Number.isFinite(x.value));if(points.length){const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox','0 0 700 180');svg.setAttribute('role','img');svg.setAttribute('aria-label',spec.title);svg.setAttribute('class','spark');let lo=Math.min(...points.map(p=>p.value)),hi=Math.max(...points.map(p=>p.value));if(lo===hi)hi=lo+1;const poly=document.createElementNS(ns,'polyline');poly.setAttribute('points',points.map((p,i)=>`${20+i/Math.max(1,points.length-1)*660},${145-(p.value-lo)/(hi-lo)*125}`).join(' '));poly.setAttribute('fill','none');poly.setAttribute('stroke',config.accent);poly.setAttribute('stroke-width','2');svg.append(poly);section.append(svg,el('p',`${points[0].label} to ${points.at(-1).label} · range ${format(lo)}–${format(hi)} ${spec.unit||''}`));const detail=el('details');detail.append(el('summary','Read chart values'));const list=el('ul');for(const p of points)list.append(el('li',`${p.label}: ${format(p.value)} ${spec.unit||''}`));detail.append(list);section.append(detail);}
+ }else {const top=items.slice(0,12),max=Math.max(...top.map(x=>x.value),1);for(const p of top){const row=el('div',undefined,'bar'),name=el('span',p.label,'bar-label');name.title=p.label;const track=el('div',undefined,'bar-track'),fill=el('div',undefined,'bar-fill');fill.style.width=Math.max(0,p.value/max*100)+'%';track.append(fill);row.append(name,track,el('span',format(p.value)+(spec.unit||''),'bar-value'));section.append(row);}if(!top.length)section.append(el('p','No comparable records in this selection.'));}
+ return section;
 }
-// Namespace future preference storage as coolcode:<tool-id>:<key>.
-// Do not persist pasted text or uploads by default.
+function detail(r){$('detail').hidden=false;$('detail').replaceChildren(el('h3',textValue(r[config.columns[0].key])));const dl=el('dl');for(const [k,v] of Object.entries(r)){if(k.startsWith('_')||v===null)continue;dl.append(el('dt',config.labels?.[k]||k.replaceAll('_',' ')));const dd=el('dd');if(k.includes('url')||k==='source'){dd.append(link('Open original source',String(v)));}else dd.textContent=typeof v==='object'&&!Array.isArray(v)?JSON.stringify(v,null,2):Array.isArray(v)&&typeof v[0]==='object'?JSON.stringify(v,null,2):textValue(v);dl.append(dd);}$('detail').append(dl);if(config.id==='contractpatterns'&&r.group_key){const linked=data.records.filter(x=>x.group_key===r.group_key).sort((a,b)=>(a.reporting_quarter||a.date).localeCompare(b.reporting_quarter||b.date));$('detail').append(el('h3','Potentially related disclosures'),el('p',r.link_status+' · reporting quarter does not necessarily date amendment approval.'));const table=el('table'),head=el('tr');for(const t of ['Reference','Type','Reporting quarter','Original value','Incremental amendment','Reported total'])head.append(el('th',t));table.append(head);for(const x of linked){const tr=el('tr');for(const k of ['reference','kind','reporting_quarter','original_value','amendment_value','reported_contract_value'])tr.append(el('td',textValue(x[k])));table.append(tr);}const wrap=el('div',undefined,'table-wrap');wrap.append(table);$('detail').append(wrap);}$('detail').scrollIntoView({behavior:'smooth',block:'nearest'});}
+function render(){
+ const filtered=filterRows(data.records,state);visible=present?present(filtered,state,data):filtered;const output=analyse(filtered,state,data);$('metrics').replaceChildren(...output.metrics.map(m=>{const a=el('article',undefined,'metric');a.append(el('span',m.label),el('strong',format(m.value)),el('small',m.note||''));return a;}));$('analysis').replaceChildren(...output.panels.map(panel));
+ $('results').textContent=`${visible.length.toLocaleString()} displayed records · ${filtered.length.toLocaleString()} source records in this selection`;$('head').replaceChildren();const tr=el('tr');for(const c of config.columns)tr.append(el('th',c.label));$('head').append(tr);$('rows').replaceChildren();page=Math.max(0,Math.min(page,Math.ceil(visible.length/size)-1));for(const r of visible.slice(page*size,(page+1)*size)){const row=el('tr');config.columns.forEach((c,i)=>{const td=el('td');if(i===0){const b=el('button',textValue(r[c.key]));b.addEventListener('click',()=>detail(r));td.append(b);}else td.textContent=c.money&&Number.isFinite(r[c.key])?'$'+format(r[c.key],2):c.percent&&Number.isFinite(r[c.key])?format(r[c.key],2)+'%':textValue(r[c.key]);row.append(td);});$('rows').append(row);}
+ $('empty').hidden=Boolean(visible.length);$('previous').disabled=page===0;$('next').disabled=(page+1)*size>=visible.length;$('page').textContent=`Page ${page+1} of ${Math.max(1,Math.ceil(visible.length/size))}`;$('export').disabled=!visible.length;
+}
+async function loadJSON(path){const response=await fetch(path);if(!response.ok)throw new Error('Saved data unavailable');if(path.endsWith('.gz')){const stream=response.body.pipeThrough(new DecompressionStream('gzip'));return JSON.parse(await new Response(stream).text());}return response.json();}
+async function expand(raw){
+ const result={...raw,records:[...raw.records]};
+ if(raw.source_shards){const shard=raw.source_shards.find(s=>s.province===state.province&&s.version===state.version);if(!shard)throw new Error('Province/version shard unavailable');result.records=await loadJSON('./'+shard.file);result.loaded_shard=shard;}
+ if(raw.baseline_file){const baseline=await loadJSON(raw.baseline_file);result.records=[...baseline.records,...result.records];result.baseline=baseline;if(raw.observations_file){const observations=await loadJSON(raw.observations_file);result.records.push(...observations.filter(r=>(r.first_seen||r.reported_at)<=raw.captured_at).map(r=>({...r,series:'Collected reports'})));}}
+ return result;
+}
+async function reloadSelection(){const version=++loadVersion;$('export').disabled=true;$('status').textContent='Loading selected saved dataset…';try{const raw=$('snapshot').value==='current'?current:await loadJSON('./'+$('snapshot').value);const expanded=await expand(raw);if(version!==loadVersion)return;data=expanded;makeControls();metadata();render();}catch(e){if(version===loadVersion)$('status').textContent='That saved selection could not be loaded. Try a different snapshot or province.';console.error(e);}}
+function metadata(){
+ $('status').textContent=`Sources checked ${data.checked_at?.replace('T',' ').slice(0,16)||data.captured_at?.slice(0,10)} UTC · snapshot ${data.captured_at?.slice(0,10)}`;$('coverage').textContent=data.coverage;$('notices').replaceChildren(...(data.warnings||[]).map(w=>el('p',w)));$('sources').replaceChildren(...data.sources.map(s=>{const li=el('li');li.append(link(s.label||new URL(s.url).hostname,s.url));if(s.updated)li.append(el('small',' · source dated '+s.updated));return li;}));$('changes').replaceChildren();const c=data.changes;if(c){$('changes').append(el('h3',c.initial?'Baseline established':`${c.added} added · ${c.changed} changed · ${c.removed} absent from this capture`));if(!c.initial&&c.examples.length){const list=el('ul',undefined,'changes-list');for(const e of c.examples){const r=e.after||e.before;list.append(el('li',`${e.kind}: ${r.name||r.title||r.domain||r.institution||r.id}`));}$('changes').append(list);}}
+}
+$('query').addEventListener('input',()=>{state.q=$('query').value;page=0;render();});$('previous').addEventListener('click',()=>{page--;render();});$('next').addEventListener('click',()=>{page++;render();});$('snapshot').addEventListener('change',async()=>{state.facets={...(config.defaults||{})};page=0;await reloadSelection();});
+$('export').addEventListener('click',()=>{const u=URL.createObjectURL(new Blob([csv(visible,config.columns)],{type:'text/csv;charset=utf-8'}));const a=link('CSV',u);a.href=u;a.download=config.id+'-filtered.csv';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);});
+try{[current,history]=await Promise.all([loadJSON('./data/current.json'),loadJSON('./data/history.json')]);data=await expand(current);$('archive-count').textContent=history.length+' capture'+(history.length===1?'':'s');$('archive-date').textContent='Archive began '+history[0].captured_at.slice(0,10);for(const h of [...history].reverse()){const o=el('option',`${h.captured_at.replace('T',' ').slice(0,16)} UTC · ${h.count.toLocaleString()} records`);o.value=h.file;$('snapshot').append(o);}for(const h of [...history].reverse().slice(0,16)){const li=el('li');li.append(el('strong',h.captured_at.slice(0,10)),el('span',h.initial?'First captured baseline':`${h.added} added · ${h.changed} changed · ${h.removed} removed`),el('small',`${h.count.toLocaleString()} records`),link('Download capture','./'+h.file));$('history').append(li);}state.facets={...(config.defaults||{})};makeControls();metadata();render();}catch(e){$('status').textContent='The saved dataset could not be loaded. Try reloading or open the repository archive.';console.error(e);}

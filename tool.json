@@ -1,16 +1,22 @@
 {
-  "id": "coolcode-tool-template",
-  "title": "CoolCode Tool Starter",
-  "description": "A browser-only example that trims lines and removes exact duplicates.",
-  "category": "security",
-  "tags": ["text", "lines", "duplicates"],
-  "icon": "scan-search",
-  "url": "/coolcode-tool-template/",
-  "source": "https://github.com/jsdyer/coolcode-tool-template",
+  "id": "sanctionsledger",
+  "title": "Sanctions Ledger",
+  "description": "Keep a dated record of Canada’s consolidated sanctions entries. Inspect listed identities, regulatory references and changes between captures.",
+  "category": "disclosures",
+  "tags": [
+    "sanctionsledger",
+    "disclosures",
+    "public data",
+    "history"
+  ],
+  "icon": "history",
+  "url": "/sanctionsledger/",
+  "source": "https://github.com/jsdyer/sanctionsledger",
   "hosting": "project",
   "access": "browser",
   "data_info": {
-    "mode": "local",
-    "detail": "The browser reads the text you paste and compares its lines."
+    "mode": "snapshot",
+    "detail": "Dated snapshots and changes in Global Affairs Canada’s consolidated sanctions XML.",
+    "cadence": "Daily"
   }
 }

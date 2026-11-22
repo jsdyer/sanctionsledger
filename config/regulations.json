@@ -1,0 +1,97 @@
+{
+  "Belarus": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/belarus.aspx?lang=eng",
+    "regulation_url": "https://laws.justice.gc.ca/eng/regulations/SOR-2020-214/FullText.html",
+    "regulation_title": "Special Economic Measures (Belarus) Regulations"
+  },
+  "China": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/china-chine.aspx?lang=eng",
+    "regulation_url": "https://laws.justice.gc.ca/eng/regulations/SOR-2021-49/FullText.html",
+    "regulation_title": "Special Economic Measures (People’s Republic of China) Regulations"
+  },
+  "Guatemala": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/guatemala.aspx?lang=eng",
+    "regulation_url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2024-23/page-1.html",
+    "regulation_title": "Special Economic Measures (Guatemala) Regulations"
+  },
+  "Haiti": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/haiti.aspx?lang=eng",
+    "regulation_url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2022-226/FullText.html",
+    "regulation_title": "Special Economic Measures (Haiti) Regulations"
+  },
+  "Iran": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/iran.aspx?lang=eng",
+    "regulation_url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2010-165/FullText.html",
+    "regulation_title": "Special Economic Measures (Iran) Regulations"
+  },
+  "Moldova": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/moldova.aspx?lang=eng",
+    "regulation_url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2023-109/FullText.html",
+    "regulation_title": "Special Economic Measures (Moldova) Regulations"
+  },
+  "Myanmar (Burma)": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/myanmar.aspx?lang=eng",
+    "regulation_url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2007-285/FullText.html",
+    "regulation_title": "Special Economic Measures (Myanmar) Regulations"
+  },
+  "Nicaragua": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/nicaragua.aspx?lang=eng",
+    "regulation_url": "https://laws.justice.gc.ca/eng/regulations/SOR-2019-232/FullText.html",
+    "regulation_title": "Special Economic Measures (Nicaragua) Regulations"
+  },
+  "Russia": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/russia-russie.aspx?lang=eng",
+    "regulation_url": "https://laws.justice.gc.ca/eng/regulations/SOR-2014-58/FullText.html",
+    "regulation_title": "Special Economic Measures (Russia) Regulations"
+  },
+  "South Sudan": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/south_sudan-soudan_sud.aspx?lang=eng",
+    "regulation_url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2014-235/FullText.html",
+    "regulation_title": "Special Economic Measures (South Sudan) Regulations"
+  },
+  "Sri Lanka": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/sri_lanka.aspx?lang=eng",
+    "regulation_url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2023-2/FullText.html",
+    "regulation_title": "Special Economic Measures (Sri Lanka) Regulations"
+  },
+  "Sudan": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/sudan-soudan.aspx?lang=eng",
+    "regulation_url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2024-61/FullText.html",
+    "regulation_title": "Special Economic Measures (Sudan) Regulations"
+  },
+  "Syria": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/syria-syrie.aspx?lang=eng",
+    "regulation_url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2011-114/FullText.html",
+    "regulation_title": "Special Economic Measures (Syria) Regulations"
+  },
+  "Ukraine": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/ukraine.aspx?lang=eng",
+    "regulation_url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2014-60/FullText.html",
+    "regulation_title": "Special Economic Measures (Ukraine) Regulations"
+  },
+  "Venezuela": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/venezuela.aspx?lang=eng",
+    "regulation_url": "https://lois-laws.justice.gc.ca/eng/regulations/SOR-2017-204/FullText.html",
+    "regulation_title": "Special Economic Measures (Venezuela) Regulations"
+  },
+  "Zimbabwe": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/zimbabwe.aspx?lang=eng",
+    "regulation_url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2008-248/FullText.html",
+    "regulation_title": "Special Economic Measures (Zimbabwe) Regulations"
+  },
+  "Justice for Victims of Corrupt Foreign Officials Regulations (JVCFOR)": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/victims_corrupt-victimes_corrompus.aspx?lang=eng",
+    "regulation_url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2017-233/FullText.html",
+    "regulation_title": "Justice for Victims of Corrupt Foreign Officials Regulations"
+  },
+  "Hamas Terrorist Attacks": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/terrorists-terroristes.aspx?lang=eng",
+    "regulation_url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2024-17/page-1.html",
+    "regulation_title": "Special Economic Measures (Hamas Terrorist Attacks) Regulations"
+  },
+  "Extremist Settler Violence": {
+    "regime_page": "https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/esv-vec.aspx?lang=eng",
+    "regulation_url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2024-91/page-1.html",
+    "regulation_title": "Special Economic Measures (Extremist Settler Violence) Regulations"
+  }
+}

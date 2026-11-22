@@ -1,34 +1,10 @@
-<!doctype html>
-<html lang="en-CA">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="{{DESCRIPTION}}">
-  <title>{{TITLE}} · CoolCode</title>
-  <link rel="stylesheet" href="./style.css">
-  <script type="module" src="./app.mjs"></script>
-  {{VISIT_COUNTER}}
-</head>
-<body data-tool-id="{{TOOL_ID}}">
-  <a class="skip" href="#main">Skip to content</a>
-  <header><a href="https://coolcode.ca/">← CoolCode.ca</a><a href="{{SOURCE_URL}}">Source &amp; instructions ↗</a></header>
-  <main id="main">
-    <p class="eyebrow">Browser tool starter</p>
-    <h1>{{TITLE}}</h1>
-    <p class="intro">{{DESCRIPTION}}</p>
-    <section aria-labelledby="example-title">
-      <h2 id="example-title">Clean a list</h2>
-      <p>Trim spaces, skip blank lines and remove exact duplicates. Capitalization stays distinct.</p>
-      <div class="panels">
-        <div><label for="input">Your lines</label><textarea id="input" rows="10" maxlength="100000" spellcheck="false" placeholder="Paste one item per line"></textarea></div>
-        <div><label for="output">Cleaned lines</label><textarea id="output" rows="10" readonly spellcheck="false"></textarea></div>
-      </div>
-      <div class="actions"><button id="sample" type="button">Load example</button><button id="clear" type="button">Clear</button><button id="copy" type="button" hidden>Copy result</button></div>
-      <p id="status" role="status" aria-live="polite">Paste a list to begin.</p>
-      <noscript><p>This tool needs JavaScript to process your text. The source is available above.</p></noscript>
-    </section>
-    <aside aria-label="Privacy"><strong>Stays on your device.</strong> The browser processes your text in this tab. Reloading clears it.</aside>
-  </main>
-  <footer>Part of <a href="https://coolcode.ca/">the CoolCode collection</a>. {{ISSUE_LINK}}</footer>
-</body>
-</html>
+<!doctype html><html lang="en-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="{{DESCRIPTION}}"><title>{{TITLE}} · CoolCode</title><link rel="stylesheet" href="./style.css"><link rel="alternate" type="application/rss+xml" href="./feed.xml" title="Snapshot diary"><script type="module" src="./app.mjs"></script>{{VISIT_COUNTER}}</head>
+<body data-tool-id="{{TOOL_ID}}"><a class="skip" href="#explorer">Skip to explorer</a><header><a class="brand" href="https://coolcode.ca/">CoolCode<span>.ca</span></a><nav><a href="#method">Sources &amp; method</a><a href="{{SOURCE_URL}}">Source code</a></nav></header>
+<main><section class="hero"><div><p class="eyebrow" id="eyebrow">PUBLIC DATA / OPEN EVIDENCE</p><h1>{{TITLE}}</h1><p class="intro" id="intro">{{DESCRIPTION}}</p><div class="principles"><span>Source-linked records</span><span>Dated observations</span><span>History retained</span></div></div><aside class="receipt"><span>OBSERVATION DIARY</span><strong id="archive-count">—</strong><p id="archive-date">Preparing the record</p><a href="./data/history.json">Download archive index</a></aside></section>
+<div class="status"><p id="status" role="status">Loading saved public data…</p><p id="coverage"></p></div><div class="notice" id="notices"></div><section class="metrics" id="metrics" aria-label="Dataset overview"></section>
+<section id="explorer"><div class="section-head"><div><p class="eyebrow">EXPLORE THE EVIDENCE</p><h2 id="explorer-title">Follow the record.</h2></div><button id="export" disabled>Download filtered CSV</button></div>
+<div class="controls"><label>Search the saved records<input id="query" type="search" placeholder="Search names, dates or keywords" autocomplete="off"></label><label>Snapshot<select id="snapshot"><option value="current">Latest capture</option></select></label><div id="facets" class="facets"></div><div id="extra-controls" class="facets"></div></div>
+<p id="results" aria-live="polite"></p><div id="analysis" class="analysis"></div><div class="table-wrap"><table><caption id="table-caption">Source records</caption><thead id="head"></thead><tbody id="rows"></tbody></table></div><p id="empty" hidden>No records match these filters. Clear the search or change a filter.</p><div class="pager"><button id="previous">Previous page</button><span id="page"></span><button id="next">Next page</button></div><section id="detail" class="detail" hidden aria-label="Selected source record"></section></section>
+<section class="history"><p class="eyebrow">THE RECORD OVER TIME</p><h2>Snapshot diary</h2><p>These are changes between our captures. A first capture establishes a baseline; it does not date the underlying events.</p><ol id="history"></ol><a href="./feed.xml">Subscribe to the change feed</a><div id="changes"></div></section>
+<section id="method" class="method"><div><p class="eyebrow">READ THE METHOD</p><h2 id="method-title">What the evidence can tell you.</h2><div id="explanation"></div></div><aside><h3>Sources &amp; collection</h3><ul id="sources"></ul><p id="cadence"></p><p>Filters and exports run in your browser. No search terms are sent to the source websites. CoolCode records aggregate page opens without filter values.</p><a href="./data/current.json">Download current dataset</a></aside></section><section class="related"><h2>Keep investigating</h2><div id="related"></div></section></main>
+<footer><span>An independent CoolCode project.</span>{{ISSUE_LINK}}<a href="{{SOURCE_URL}}">Repository &amp; setup</a></footer></body></html>
