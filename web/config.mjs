@@ -1,6 +1,6 @@
 export default {
   "title": "Sanctions Ledger",
-  "intro": "Keep a dated record of Canada’s consolidated sanctions entries. Inspect listed identities, regulatory references and changes between captures.",
+  "intro": "Search by name or regime, or compare how a source entry appeared in two saved copies of the list.",
   "eyebrow": "CANADIAN SANCTIONS / CONSOLIDATED SOURCE",
   "accent": "#775565",
   "tint": "#f0e5ec",
@@ -10,7 +10,7 @@ export default {
     "The first capture is a baseline, not thousands of new sanctions. Source listing date, source update date and our capture date have different meanings. Later absence from the file does not itself establish a legal delisting."
   ],
   "id": "sanctionsledger",
-  "explorer-title": "Follow the record.",
+  "explorer-title": "Search the saved list",
   "cadence": "Daily automated collection. Source dates and capture dates are shown separately.",
   "facets": [
     {

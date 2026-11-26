@@ -8,6 +8,8 @@ Open https://coolcode.ca/sanctionsledger/
 Open an entry to inspect its identity fields and linked regulation. The diary reports additions, absences and changed source entries between captures. An absence from the consolidated XML is not by itself proof of legal delisting.
 <!-- /coolcode:guide -->
 
+The opening comparison uses two saved captures of the same regime, schedule and item. It shows the values of one changed source field and the capture dates. When the latest capture has no suitable comparison, a dated source entry appears instead.
+
 ## Sources and interpretation
 
 Global Affairs Canada’s consolidated XML is a reference list and has no force of law. The controlling regulations may change before the consolidated source is updated. Follow the linked regulation for legal interpretation.

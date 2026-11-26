@@ -1,11 +1,14 @@
 import json,shutil
 from common import validate
+from example import example_card
 from xml.sax.saxutils import escape
 
 def assemble(root,stage):
     current=validate(json.loads((root/'data/current.json').read_text()))
     history=json.loads((root/'data/history.json').read_text())
     if not history:raise ValueError('Missing archive provenance')
+    page = stage / 'index.html'
+    page.write_text(page.read_text().replace('<!-- current-example -->', example_card(current, history)), encoding='utf-8')
     shutil.copytree(root/'data',stage/'data')
     shutil.copytree(root/'archive',stage/'archive')
     tool=json.loads((root/'tool.json').read_text());url='https://coolcode.ca/'+tool['id']+'/'

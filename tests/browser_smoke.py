@@ -10,6 +10,15 @@ with socketserver.TCPServer(('127.0.0.1',0),Handler) as server:
  with sync_playwright() as p:
   browser=p.chromium.launch();page=browser.new_page(viewport={'width':1280,'height':900});errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
   page.goto(f'http://127.0.0.1:{server.server_address[1]}/');page.locator('#rows tr').first.wait_for(timeout=60000)
+  page.set_viewport_size({'width':390,'height':844})
+  example=page.locator('.receipt summary')
+  assert example.bounding_box()['y'] + example.bounding_box()['height'] < 844
+  example.click()
+  assert page.locator('.receipt details a').first.is_visible()
+  assert page.locator('.receipt details a').first.get_attribute('href').startswith('https://')
+  page.locator('.receipt a[href="#query"]').click()
+  assert page.locator('#query').evaluate('e => e === document.activeElement')
+  page.set_viewport_size({'width':1280,'height':900})
   page.locator('#query').fill('zzzz_no_such_record_5938');assert page.locator('#rows tr').count()==0;assert page.locator('#empty').is_visible()
   page.locator('#query').fill('');page.locator('#rows tr button').first.click();assert page.locator('#detail').is_visible()
   with page.expect_download() as download:page.locator('#export').click()
